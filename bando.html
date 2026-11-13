@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>M8 Pro Bản đồ</title>
+<meta name="theme-color" content="#1b2b3a">
+<link rel="manifest" href="manifest.json">
+<style>
+:root{--bg:#eef0f2;--fg:#1a1d21;--bar:#fff;--bar2:#f6f7f8;--bd:#cfd4da;--ac:#0b6bcb;--ac2:#e6f0fb;--warn:#b35c00;--sel:#ff2bd6;
+ padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root{--bg:#15181b;--fg:#e9ecef;--bar:#20242a;--bar2:#1a1e23;--bd:#384049;--ac:#4ea3ff;--ac2:#1d3247}}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font:13.5px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;flex-direction:column;overflow:hidden;-webkit-user-select:none;user-select:none}
+input,select,textarea{-webkit-user-select:text;user-select:text}
+button,select,input{font:inherit;color:var(--fg);background:var(--bar2);border:1px solid var(--bd);border-radius:7px;padding:4px 8px;min-height:30px}
+button{cursor:pointer;white-space:nowrap}button:disabled{opacity:.4}button.on{background:var(--ac);border-color:var(--ac);color:#fff}
+button.p{background:var(--ac);border-color:var(--ac);color:#fff}
+#top{display:flex;align-items:center;gap:6px;padding:3px 6px;background:#1b2b3a;color:#fff}
+#top b{font-size:14px;letter-spacing:.3px}#top .logo{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#2f8cff,#13c08a);display:grid;place-items:center;font-weight:800;font-size:11px}
+#fn{flex:1;opacity:.85;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12.5px}
+#top button{background:#2b3d50;border-color:#3d5670;color:#fff;min-height:26px;padding:2px 8px;font-size:12.5px}
+.row{display:flex;gap:4px;align-items:center;padding:3px 5px;background:var(--bar);border-bottom:1px solid var(--bd);overflow-x:auto;scrollbar-width:none;flex:none}
+.row::-webkit-scrollbar{display:none}
+#menu button{font-weight:600}#menu button.open{box-shadow:inset 0 -3px 0 var(--ac)}
+#sub{background:var(--ac2);display:none;flex-wrap:wrap}#sub button{background:var(--bar);font-size:12.5px;min-height:28px}
+#ts{background:var(--bar2);display:none;font-size:12.5px;flex-wrap:wrap}#ts label{display:flex;align-items:center;gap:3px;white-space:nowrap}
+#ts input[type=number]{width:78px}#ts input[type=text]{width:180px}
+#attr{font-size:12.5px;flex-wrap:nowrap}#attr label{display:flex;align-items:center;gap:3px;white-space:nowrap}
+#attr select,#attr input{min-height:26px;padding:1px 4px}#attr input[type=number]{width:54px}
+.sw{display:inline-block;width:14px;height:14px;border:1px solid #888;border-radius:3px;vertical-align:middle}
+#snapbar button{font-size:12px;min-height:26px;padding:1px 6px}
+#main{flex:1;display:flex;min-height:0;position:relative}
+#pal{display:none;flex-direction:column;gap:2px;padding:3px;background:var(--bar);border-right:1px solid var(--bd);overflow-y:auto;width:44px;flex:none}
+#pal button{width:36px;height:34px;min-height:0;padding:0;font-size:16px;line-height:1}
+#pal hr{width:100%;border:0;border-top:1px solid var(--bd);margin:2px 0}
+#views{flex:1;display:flex;min-width:0;position:relative}
+.vw{flex:1;position:relative;min-width:0;background:#000;border-left:1px solid #333}
+.vw.act{outline:2px solid var(--ac);outline-offset:-2px}
+.vw canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;display:block}
+.vw .vt{position:absolute;left:4px;top:3px;font-size:11px;color:#9ab;pointer-events:none;z-index:2}
+#cross{position:absolute;left:50%;top:50%;width:44px;height:44px;margin:-22px 0 0 -22px;pointer-events:none;display:none;z-index:3}
+#cross:before,#cross:after{content:"";position:absolute;background:#ff3b3b}#cross:before{left:21px;top:0;width:2px;height:44px}#cross:after{top:21px;left:0;height:2px;width:44px}
+#fab{position:absolute;right:8px;bottom:8px;display:flex;flex-direction:column;gap:6px;z-index:4}
+#fab button{width:46px;height:46px;border-radius:23px;font-size:18px;padding:0;background:var(--bar);box-shadow:0 2px 8px rgba(0,0,0,.35)}
+#fab button.p{background:var(--ac);color:#fff}
+#hint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;color:#9aa;padding:24px;pointer-events:none;line-height:1.6;z-index:1}
+#dock{display:none;flex-direction:column;background:var(--bar);border-left:1px solid var(--bd);width:430px;flex:none;min-width:0}
+#dock .dh{display:flex;align-items:center;gap:6px;padding:3px 6px;background:#123a2a;color:#fff;font-weight:600;font-size:12.5px}
+#dock .dh span{flex:1}#dock .dh button{min-height:24px;padding:1px 8px;background:#1e5540;border-color:#2e7058;color:#fff}
+#dock iframe{flex:1;border:0;width:100%;background:var(--bg)}
+body.phone #dock{position:absolute;left:0;right:0;bottom:0;width:auto;height:56%;border-left:0;border-top:2px solid var(--ac);z-index:6;box-shadow:0 -4px 14px rgba(0,0,0,.35)}
+body.phone #dock.mini{height:34px}
+#pin{display:none;gap:4px;font-size:12.5px;flex-wrap:wrap}#pin input{width:110px}#pin select{min-height:28px}
+#kin{display:none}#kin input{flex:1;min-width:120px;font-family:ui-monospace,Consolas,monospace}
+#st{display:flex;gap:8px;padding:3px 8px;font-size:12px;background:var(--bar);border-top:1px solid var(--bd);white-space:nowrap;overflow:hidden}
+#pr{flex:1;overflow:hidden;text-overflow:ellipsis;font-weight:600;color:var(--ac)}#xy{font-family:ui-monospace,Consolas,monospace}
+#msg{position:absolute;left:50%;top:10px;transform:translateX(-50%);background:rgba(20,24,28,.92);color:#fff;padding:7px 12px;border-radius:9px;font-size:12.5px;z-index:8;display:none;max-width:90%;text-align:center}
+#dlg{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:20;padding:10px}
+#dlg>div{background:var(--bar);border:1px solid var(--bd);border-radius:12px;padding:12px;width:min(560px,100%);max-height:92vh;overflow:auto}
+#dlg h3{margin:0 0 8px;font-size:15px}#dlg .f{display:flex;flex-direction:column;gap:3px;margin:6px 0}#dlg .f input,#dlg .f select,#dlg .f textarea{width:100%}
+#dlg .bt{display:flex;gap:6px;justify-content:flex-end;margin-top:10px;flex-wrap:wrap}
+#dlg table{border-collapse:collapse;width:100%;font-size:12.5px}#dlg td,#dlg th{border:1px solid var(--bd);padding:3px 5px;text-align:left}
+#dlg .lvtab{max-height:55vh;overflow:auto}
+.ctx{position:fixed;z-index:15;background:var(--bar);border:1px solid var(--bd);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.3);display:none;flex-direction:column;padding:3px;min-width:170px}
+.ctx button{border:0;background:none;text-align:left;border-radius:5px}.ctx button:hover{background:var(--ac2)}
+.desk-only{display:none}body.desk .desk-only{display:inline-flex}
+body.desk #pal{display:flex}body.desk #kin{display:flex}
+</style></head>
+<body>
+<div id="top"><div class="logo">M8</div><b>M8 Pro Bản đồ</b><span id="fn">Chưa mở bản đồ</span>
+ <button id="bUndo" title="Hoàn tác (Ctrl+Z)">↶</button><button id="bRedo" title="Làm lại (Ctrl+Y)">↷</button><button id="bSave" title="Lưu (Ctrl+S)">💾 Lưu</button><button id="bDc" title="Nạp ứng dụng M8 Pro Địa chính">🏠 Địa chính</button></div>
+<div id="menu" class="row"></div>
+<div id="sub" class="row"></div>
+<div id="ts" class="row"></div>
+<div id="attr" class="row"></div>
+<div id="main">
+ <div id="pal"></div>
+ <div id="views">
+  <div class="vw act" data-v="0"><canvas></canvas><span class="vt">Cửa sổ 1</span></div>
+  <div id="hint">Mở bản đồ: menu <b>Tệp → Mở bản đồ</b><br>(DGN V8, DGN V7, DXF)<br><small>Kéo thả tệp vào đây (máy tính)</small></div>
+  <div id="cross"></div>
+  <div id="fab"><button id="fOk" class="p" title="Chấp nhận điểm (điểm dữ liệu)">✓</button><button id="fRs" title="Đặt lại / Kết thúc (chuột phải)">↺</button><button id="fCr" title="Tâm ngắm: lấy điểm ở giữa màn hình">⌖</button><button id="fFit" title="Xem toàn bộ">⤢</button></div>
+  <div id="msg"></div>
+ </div>
+ <div id="dock"><div class="dh"><span>🏠 M8 Pro Địa chính</span><button id="dMin">▾</button><button id="dWin" class="desk-only">⧉ Cửa sổ riêng</button><button id="dClose">✕</button></div><iframe id="dFrame" title="M8 Pro Địa chính"></iframe></div>
+</div>
+<div id="pin" class="row"></div>
+<div id="kin" class="row"><b>Dòng lệnh</b><input id="kinI" placeholder="vd: td=2365123.45,567890.12   pv=12.5,45   lop=10   doan   xoa   ? để xem danh sách" autocomplete="off" spellcheck="false"><button id="kinGo">↵</button></div>
+<div id="st"><span id="pr">Sẵn sàng</span><span id="sn"></span><span id="xy"></span></div>
+<div id="dlg"><div id="dlgB"></div></div>
+<div id="ctx" class="ctx"></div>
+<input type="file" id="fi" accept=".dgn,.dxf,.DGN,.DXF" hidden><input type="file" id="fr" accept=".dgn,.dxf,.DGN,.DXF" hidden>
+<script src="core.js"></script>
+<script src="bando.js"></script>
+</body></html>

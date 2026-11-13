@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>M8 Pro Địa chính</title>
+<meta name="theme-color" content="#123a2a">
+<link rel="manifest" href="manifest.json">
+<style>
+:root{--bg:#f1f3f2;--fg:#1a1d1b;--bar:#fff;--bar2:#f6f8f7;--bd:#cfd8d3;--ac:#11845b;--ac2:#e3f4ec;--er:#c62828;
+ padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root{--bg:#141816;--fg:#e8ece9;--bar:#1e2421;--bar2:#19201c;--bd:#35423b;--ac:#3fc48d;--ac2:#18352a}}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font:13.5px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;flex-direction:column;overflow:hidden}
+button,select,input,textarea{font:inherit;color:var(--fg);background:var(--bar2);border:1px solid var(--bd);border-radius:7px;padding:4px 8px;min-height:30px}
+button{cursor:pointer;white-space:nowrap}button.p{background:var(--ac);border-color:var(--ac);color:#fff}button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+#top{display:flex;align-items:center;gap:6px;padding:4px 7px;background:#123a2a;color:#fff}
+#top .logo{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#13c08a,#f2b705);display:grid;place-items:center;font-weight:800;font-size:11px;color:#06281b}
+#top b{font-size:14px}#conn{flex:1;font-size:12px;opacity:.9;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#top button{background:#1e5540;border-color:#2e7058;color:#fff;min-height:26px;padding:2px 8px;font-size:12.5px}
+.row{display:flex;gap:4px;padding:3px 5px;background:var(--bar);border-bottom:1px solid var(--bd);overflow-x:auto;scrollbar-width:none;flex:none}.row::-webkit-scrollbar{display:none}
+#menu button{font-weight:600}#menu button.open{box-shadow:inset 0 -3px 0 var(--ac)}
+#sub{background:var(--ac2);display:none;flex-wrap:wrap}#sub button{background:var(--bar);font-size:12.5px;min-height:28px}
+#body{flex:1;overflow:auto;padding:8px}
+.card{background:var(--bar);border:1px solid var(--bd);border-radius:10px;padding:9px;margin-bottom:8px}
+.card h3{margin:0 0 6px;font-size:14px}.muted{opacity:.7;font-size:12.5px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:13px}.kv b{font-weight:600}
+table.t{border-collapse:collapse;width:100%;font-size:12.5px}table.t th,table.t td{border:1px solid var(--bd);padding:3px 5px;text-align:left;vertical-align:top}
+table.t th{background:var(--bar2);position:sticky;top:0;z-index:1}table.t tr.sel td{background:var(--ac2)}table.t tr:hover td{background:var(--ac2);cursor:pointer}
+.tw{max-height:calc(100vh - 230px);overflow:auto;border:1px solid var(--bd);border-radius:8px}
+.er{color:var(--er);font-weight:600}.ok{color:var(--ac);font-weight:600}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}.fg label{display:flex;flex-direction:column;gap:2px;font-size:12px}.fg input,.fg select{width:100%}
+.btns{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+#st{padding:3px 8px;font-size:12px;background:var(--bar);border-top:1px solid var(--bd);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#dlg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:20;padding:10px}
+#dlg>div{background:var(--bar);border:1px solid var(--bd);border-radius:12px;padding:12px;width:min(560px,100%);max-height:92vh;overflow:auto}
+#dlg h3{margin:0 0 8px;font-size:15px}#dlg .f{display:flex;flex-direction:column;gap:3px;margin:6px 0}#dlg .f input,#dlg .f select{width:100%}
+#dlg .bt{display:flex;gap:6px;justify-content:flex-end;margin-top:10px;flex-wrap:wrap}
+#nc{display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:30px;line-height:1.6}
+.pill{display:inline-block;padding:1px 7px;border-radius:9px;background:var(--ac2);font-size:12px}
+</style></head>
+<body>
+<div id="top"><div class="logo">ĐC</div><b>M8 Pro Địa chính</b><span id="conn">Đang kết nối bản đồ…</span><button id="bMap" title="Mở M8 Pro Bản đồ">🗺 Bản đồ</button></div>
+<div id="menu" class="row"></div>
+<div id="sub" class="row"></div>
+<div id="nc"><div style="font-size:40px">🗺</div><div><b>Chưa kết nối với M8 Pro Bản đồ</b><br>Ứng dụng Địa chính làm việc trên bản đồ đang mở trong M8 Pro Bản đồ – giống cách ứng dụng nghiệp vụ được nạp vào trình biên tập bản đồ.</div>
+ <button class="p" id="ncOpen">Mở M8 Pro Bản đồ và nạp Địa chính</button><button id="ncRetry">Thử kết nối lại</button><div class="muted">Trên máy tính có thể để hai cửa sổ cạnh nhau (cùng địa chỉ trang).</div></div>
+<div id="body"></div>
+<div id="st">Sẵn sàng</div>
+<div id="dlg"><div id="dlgB"></div></div>
+<input type="file" id="fGtp" accept=".gtp" hidden><input type="file" id="fXls" accept=".xlsx,.xls,.csv" hidden>
+<script src="core.js"></script>
+<script src="diachinh.js"></script>
+</body></html>
